@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CarSaleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Automobil">
+          <Key>
+            <PropertyRef Name="ID_Automobil" />
+          </Key>
+          <Property Name="ID_Automobil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Snaga" Type="int" Nullable="false" />
+          <Property Name="Godina" Type="int" Nullable="false" />
+          <Property Name="Gorivo" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Pogon" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Zapremnina" Type="int" Nullable="false" />
+          <Property Name="ID_Proizvodac" Type="int" Nullable="false" />
+          <Property Name="Cijena" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proizvodac">
+          <Key>
+            <PropertyRef Name="ID_Proizvodac" />
+          </Key>
+          <Property Name="ID_Proizvodac" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Drzava" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Oznaka" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Automobil_Proizvodac">
+          <End Role="Proizvodac" Type="Self.Proizvodac" Multiplicity="1" />
+          <End Role="Automobil" Type="Self.Automobil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proizvodac">
+              <PropertyRef Name="ID_Proizvodac" />
+            </Principal>
+            <Dependent Role="Automobil">
+              <PropertyRef Name="ID_Proizvodac" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarSaleModelStoreContainer">
+          <EntitySet Name="Automobil" EntityType="Self.Automobil" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proizvodac" EntityType="Self.Proizvodac" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Automobil_Proizvodac" Association="Self.FK_Automobil_Proizvodac">
+            <End Role="Proizvodac" EntitySet="Proizvodac" />
+            <End Role="Automobil" EntitySet="Automobil" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CarSaleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Automobil">
+          <Key>
+            <PropertyRef Name="ID_Automobil" />
+          </Key>
+          <Property Name="ID_Automobil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Snaga" Type="Int32" Nullable="false" />
+          <Property Name="Godina" Type="Int32" Nullable="false" />
+          <Property Name="Gorivo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Pogon" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Zapremnina" Type="Int32" Nullable="false" />
+          <Property Name="ID_Proizvodac" Type="Int32" Nullable="false" />
+          <Property Name="Cijena" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Proizvodac" Relationship="Self.FK_Automobil_Proizvodac" FromRole="Automobil" ToRole="Proizvodac" />
+        </EntityType>
+        <EntityType Name="Proizvodac">
+          <Key>
+            <PropertyRef Name="ID_Proizvodac" />
+          </Key>
+          <Property Name="ID_Proizvodac" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Drzava" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Oznaka" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Automobils" Relationship="Self.FK_Automobil_Proizvodac" FromRole="Proizvodac" ToRole="Automobil" />
+        </EntityType>
+        <Association Name="FK_Automobil_Proizvodac">
+          <End Role="Proizvodac" Type="Self.Proizvodac" Multiplicity="1" />
+          <End Role="Automobil" Type="Self.Automobil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proizvodac">
+              <PropertyRef Name="ID_Proizvodac" />
+            </Principal>
+            <Dependent Role="Automobil">
+              <PropertyRef Name="ID_Proizvodac" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CarSaleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Automobils" EntityType="Self.Automobil" />
+          <EntitySet Name="Proizvodacs" EntityType="Self.Proizvodac" />
+          <AssociationSet Name="FK_Automobil_Proizvodac" Association="Self.FK_Automobil_Proizvodac">
+            <End Role="Proizvodac" EntitySet="Proizvodacs" />
+            <End Role="Automobil" EntitySet="Automobils" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CarSaleModelStoreContainer" CdmEntityContainer="CarSaleEntities">
+          <EntitySetMapping Name="Automobils">
+            <EntityTypeMapping TypeName="CarSaleModel.Automobil">
+              <MappingFragment StoreEntitySet="Automobil">
+                <ScalarProperty Name="ID_Automobil" ColumnName="ID_Automobil" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Snaga" ColumnName="Snaga" />
+                <ScalarProperty Name="Godina" ColumnName="Godina" />
+                <ScalarProperty Name="Gorivo" ColumnName="Gorivo" />
+                <ScalarProperty Name="Pogon" ColumnName="Pogon" />
+                <ScalarProperty Name="Zapremnina" ColumnName="Zapremnina" />
+                <ScalarProperty Name="ID_Proizvodac" ColumnName="ID_Proizvodac" />
+                <ScalarProperty Name="Cijena" ColumnName="Cijena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proizvodacs">
+            <EntityTypeMapping TypeName="CarSaleModel.Proizvodac">
+              <MappingFragment StoreEntitySet="Proizvodac">
+                <ScalarProperty Name="ID_Proizvodac" ColumnName="ID_Proizvodac" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Drzava" ColumnName="Drzava" />
+                <ScalarProperty Name="Oznaka" ColumnName="Oznaka" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
